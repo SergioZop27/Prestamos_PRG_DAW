@@ -32,13 +32,9 @@ public class Usuario {
             } else {
                 throw new UsuarioInvalidoException("Numero de socio incorrecto tiene que ser este formato: SOC00000");
             }
-
-
     }
-
     public void sancionar(int diasSancion){
-
-
+        this.fechaFinSancion=LocalDate.now().plusDays(diasSancion);
         this.sancionado=true;
     }
    public void levantarSancion(){
