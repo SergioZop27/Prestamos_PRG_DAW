@@ -37,23 +37,46 @@ public class Prestamo {
 
     public void registrarDevolucion(LocalDate fechaDevolucion){
         //devuelve true si la fecha es anterior a la actual
-        boolean condicionfecha = fechaPrestamo .isBefore(fechaDevolucion);
+        boolean condicionfecha = fechaPrestamo.isBefore(fechaDevolucion);
 
-        if(condicionfecha || fechaDevolucion == null ){
-            throw new PrestamoInvalidoException("la fecha no puede ser anterior a la fecha de Prestamo");
-        }else{
+        if(condicionfecha){
             this.fechaDevolucionReal=fechaDevolucion;
+        }else{
+            throw new PrestamoInvalidoException
+                    ("la fecha no puede ser anterior a la fecha de Prestamo o ser una fecha nula");
+
         }
     }
 
+    public int calcularDiasRetraso(){ //DA ERROR-----------!!!!!!!!!!!!!!!!!!!!!!
+        if(fechaDevolucionReal==null){
+            Duration dias = Duration.between(fechaPrestamo,LocalDate.now());
+            long resul = dias.toDays();
+            return (int) resul;
+        }else {
+            Duration dias = Duration.between(fechaDevolucionPrevista, fechaDevolucionReal);
+            long resul = dias.toDays();
+            return (int) resul;
+        }
+    }
+    public boolean estaRetrasado(){ //revisar!!!!!!!!!!!!!!
+        int comparacion = fechaDevolucionPrevista.compareTo(LocalDate.now());
+        if(comparacion<=0){
+            return false;//no esta retrasado
+        }else {
+            return true;//si esta retrasado
+        }
+    }
 
-//    public int calcularDiasRetraso(){
-//
-//        Duration dur = Duration.between (fechaDevolucionPrevista,fechaDevolucionReal);
-//
-//
-//    }
-
+    @Override
+    public String toString(){
+        return "Codigo Libro: "+codigoLibro+"\n"+
+                "Titulo Libro: " +tituloLibro+"\n"+
+                "Socio: " +socio+"\n"+
+                "fech Prestamo: "+fechaPrestamo+"\n"+
+                "fech devolucion prevista: "+fechaDevolucionPrevista+"\n"+
+                "fech devolucion real: "+ fechaDevolucionReal+"\n";
+    }
 
 
 
