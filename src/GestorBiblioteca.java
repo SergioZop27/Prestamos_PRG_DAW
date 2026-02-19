@@ -8,14 +8,14 @@ import java.time.LocalDate;
         private int numeroUsuarios;
         private int numeroPrestamos;
 
-        public GestorBiblioteca(){
+        public GestorBiblioteca() {
             this.usuarios = new Usuario[50];
             this.prestamos = new Prestamo[200];
             this.numeroUsuarios = 0;
             this.numeroPrestamos = 0;
         }
 
-        public void registrarUsuario(Usuario user) throws UsuarioRepetidoException, PrestamoInvalidoException{
+        public void registrarUsuario(Usuario user) throws UsuarioRepetidoException, PrestamoInvalidoException {
             for (int i = 0; i < numeroUsuarios; i++) {
                 //recorre toda la array y si el usuario ya esta metido sale un error
                 if (usuarios[i].equals(user)) {
@@ -35,8 +35,8 @@ import java.time.LocalDate;
         }
 
 
-        public Prestamo realizarPrestamo(String codigoLibro,Usuario socio ,String tituloLibro,LocalDate fechaPrestamo )
-                throws UsuarioSancionadoException, LibroNoDisponibleException, PrestamoInvalidoException{
+        public Prestamo realizarPrestamo(String codigoLibro, Usuario socio, String tituloLibro, LocalDate fechaPrestamo)
+                throws UsuarioSancionadoException, LibroNoDisponibleException, PrestamoInvalidoException {
 
             //Del metodo booleano de la clase Usuario, lo utilizamos aqui, si sale true se ejecuta el error de sancion
             if (socio.estaSancionado()) {
@@ -55,7 +55,7 @@ import java.time.LocalDate;
             Prestamo nuevoPrestamo;
             try {
                 nuevoPrestamo = new Prestamo(codigoLibro, socio, tituloLibro, fechaPrestamo);
-            }catch (Exception e) {
+            } catch (Exception e) {
                 throw new RuntimeException(e);
             }
 
@@ -66,28 +66,49 @@ import java.time.LocalDate;
             return nuevoPrestamo;
         }
 
+        public boolean devolverLibro(String codigoLibro, LocalDate fechaDevolucion) {
+
+            for (int i = 0; i < numeroPrestamos; i++) {
+                if (prestamos[i].getCodigoLibro().equals(codigoLibro)) {
+                    if (fechaDevolucion.isBefore(prestamos[i].getFechaPrestamo())) {
+                        throw new PrestamoInvalidoException("La fecha de devolución no puede ser anterior a la de préstamo");
+                    }
+                    //utilizamos metodos de la clase Prestamos
+                    if (prestamos[i].estaRetrasado()) {
+                        prestamos[i].getSocio().sancionar(prestamos[i].calcularDiasRetraso());
+                    } else {
+                        prestamos[i].registrarDevolucion(fechaDevolucion);
+                        return true;
+                    }
+
+                }
+            }
+            return false;
+        }
+
+        public String buscarUsuario(String codigoSocio) {
+
+            for (int i = 0; i < numeroUsuarios; i++) {
+                if (usuarios[i].getNumeroSocio().equals(codigoSocio)) {
+                    return usuarios[i].getNombre();
+                }
+            }
+            return null;
+        }
+
+        public Prestamo[] getPrestamos() {
+            return prestamos;
+        }
+
+        public int getNumeroUsuarios() {
+            return numeroUsuarios;
+        }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//        @Override
+//        public String toString(){
+//
+//        }
 
 
     }
