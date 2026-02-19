@@ -1,5 +1,6 @@
 import java.time.Duration;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 public class Prestamo {
     private String codigoLibro;
@@ -7,9 +8,21 @@ public class Prestamo {
     private Usuario socio;
     private LocalDate fechaPrestamo;
     private LocalDate fechaDevolucionPrevista;
-    private LocalDate fechaDevolucionReal; //(null si aún no se ha devuelto el libro)
+    private LocalDate fechaDevolucionReal;
 
-    public Prestamo(String codigoLibro,Usuario socio ,String tituloLibro,LocalDate fechaPrestamo )throws Exception{
+    public String getCodigoLibro() {
+        return codigoLibro;
+    }
+
+    public LocalDate getFechaPrestamo() {
+        return fechaPrestamo;
+    }
+
+    public Usuario getSocio() {
+        return socio;
+    }
+
+    public Prestamo(String codigoLibro, Usuario socio , String tituloLibro, LocalDate fechaPrestamo )throws Exception{
             this.socio=socio;
             this.tituloLibro=tituloLibro;
 
@@ -48,23 +61,23 @@ public class Prestamo {
         }
     }
 
-    public int calcularDiasRetraso(){ //DA ERROR-----------!!!!!!!!!!!!!!!!!!!!!!
+    public int calcularDiasRetraso(){
         if(fechaDevolucionReal==null){
-            Duration dias = Duration.between(fechaPrestamo,LocalDate.now());
+            Duration dias = Duration.ofDays(ChronoUnit.DAYS.between(fechaPrestamo, LocalDate.now()));
             long resul = dias.toDays();
             return (int) resul;
         }else {
-            Duration dias = Duration.between(fechaDevolucionPrevista, fechaDevolucionReal);
+            Duration dias = Duration.ofDays(ChronoUnit.DAYS.between(fechaDevolucionPrevista, fechaDevolucionReal));
             long resul = dias.toDays();
             return (int) resul;
         }
     }
-    public boolean estaRetrasado(){ //revisar!!!!!!!!!!!!!!
+    public boolean estaRetrasado(){
         int comparacion = fechaDevolucionPrevista.compareTo(LocalDate.now());
-        if(comparacion<=0){
-            return false;//no esta retrasado
+        if(comparacion<0){
+            return true;//sí esta retrasado
         }else {
-            return true;//si esta retrasado
+            return false;//no esta retrasado
         }
     }
 

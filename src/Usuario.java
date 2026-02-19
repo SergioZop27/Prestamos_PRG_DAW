@@ -8,9 +8,15 @@ public class Usuario {
     private boolean sancionado;
     private LocalDate fechaFinSancion;
 
+    public String getNombre() {
+        return nombre;
+    }
 
+    public String getNumeroSocio() {
+        return numeroSocio;
+    }
 
-    public Usuario(String nombre, String email,String numeroSocio,LocalDate fechaRegistro) throws UsuarioInvalidoException{
+    public Usuario(String nombre, String email, String numeroSocio, LocalDate fechaRegistro) throws UsuarioInvalidoException{
 
             this.nombre = nombre;
             this.fechaRegistro = fechaRegistro;
