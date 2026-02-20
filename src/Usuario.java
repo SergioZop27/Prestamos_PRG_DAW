@@ -16,6 +16,10 @@ public class Usuario {
         return numeroSocio;
     }
 
+    public LocalDate getFechaFinSancion() {
+        return fechaFinSancion;
+    }
+
     public Usuario(String nombre, String email, String numeroSocio, LocalDate fechaRegistro) throws UsuarioInvalidoException{
 
             this.nombre = nombre;

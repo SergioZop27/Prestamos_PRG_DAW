@@ -87,11 +87,11 @@ import java.time.LocalDate;
             return false;
         }
 
-        public String buscarUsuario(String codigoSocio) {
+        public Usuario buscarUsuario(String codigoSocio) {
 
             for (int i = 0; i < numeroUsuarios; i++) {
                 if (usuarios[i].getNumeroSocio().equals(codigoSocio)) {
-                    return usuarios[i].getNombre();
+                    return usuarios[i];
                 }
             }
             return null;
@@ -108,10 +108,12 @@ import java.time.LocalDate;
         @Override
         public String toString(){
             String resultado = "";
+
             for (int i = 0; i < numeroPrestamos; i++) {
                 Prestamo escribe = prestamos[i];
                 resultado += escribe.toString() + "\n";
             }
+
             for (int i = 0; i < numeroUsuarios; i++) {
                 Usuario escribe = usuarios[i];
                 resultado += escribe.toString() + "\n";
