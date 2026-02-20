@@ -59,6 +59,7 @@ import java.time.LocalDate;
                 throw new RuntimeException(e);
             }
 
+
             prestamos[numeroPrestamos] = nuevoPrestamo;
             numeroPrestamos++;
 
@@ -104,11 +105,18 @@ import java.time.LocalDate;
             return numeroUsuarios;
         }
 
-
-//        @Override
-//        public String toString(){
-//
-//        }
-
+        @Override
+        public String toString(){
+            String resultado = "";
+            for (int i = 0; i < numeroPrestamos; i++) {
+                Prestamo escribe = prestamos[i];
+                resultado += escribe.toString() + "\n";
+            }
+            for (int i = 0; i < numeroUsuarios; i++) {
+                Usuario escribe = usuarios[i];
+                resultado += escribe.toString() + "\n";
+            }
+            return "";
+        }
 
     }
